@@ -1,7 +1,7 @@
 # CMPS 6100  Lab 10
 
 In this lab, you will learn about network exploration tools on the shell
-and write your first networked application.
+and write your first networked program.
 
 Refer back to the [README.md](README.md) for instruction on git and how 
 to submit properly to get all the points you've earned.
