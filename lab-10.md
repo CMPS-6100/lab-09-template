@@ -172,6 +172,12 @@ The client will emit a prompt (`"> "`), read in a message from the user,
 then send it to the server. At this point the client will wait for the
 server's response.
 
+> **Note:** The client must remove any trailing new line characters from the
+> end of the message before sending it to the server. This will be important
+> uniform implementations so that in the next lab, when you implement a
+> server that can accept multiple clients, you can connect your client
+> to your peers' servers and vice-verse.
+
 The server will print the client's message to the screen in the format:
 
 `username: user's message`
