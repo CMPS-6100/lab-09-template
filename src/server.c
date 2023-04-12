@@ -7,37 +7,55 @@
 #include <unistd.h>
 #include <string.h>
 
-#define SERVER_PORT  -1 // CHANGE THIS
 #define MAX_PENDING  5
 #define MAX_LINE     256
 
-int main()
-{
-  struct sockaddr_in sin;
-  char buf[MAX_LINE];
-  int buf_len, addr_len;
-  int s, new_s;
+// Global Variables
+int passive_open_socket;
+int port = -1; // Default port, CHANGE THIS
+// END Global Variables
 
+// Function prototypes
+int performPassiveOpen(struct sockaddr_in* sin);
+// END prototypes list
+
+int performPassiveOpen(struct sockaddr_in* sin) {
   /* build address data structure */
-  bzero((char *)&sin, sizeof(sin));
-  sin.sin_family = AF_INET;
-  sin.sin_addr.s_addr = INADDR_ANY;
-  sin.sin_port = htons(SERVER_PORT);
+  bzero((char *)sin, sizeof(*sin));
+  sin->sin_family = AF_INET;
+  sin->sin_addr.s_addr = INADDR_ANY;
+  sin->sin_port = htons(port);
 
   /* setup passive open */
-  if ((s = socket(PF_INET, SOCK_STREAM, 0)) < 0) {
+  if ((passive_open_socket = socket(PF_INET, SOCK_STREAM, 0)) < 0) {
     perror("server: socket error");
     exit(1);
   }
-  if ((bind(s, (struct sockaddr *)&sin, sizeof(sin))) < 0) {
+  if ((bind(passive_open_socket, (struct sockaddr *)sin, sizeof(*sin))) < 0) {
     perror("server: bind error");
     exit(1);
   }
-  listen(s, MAX_PENDING);
+  listen(passive_open_socket, MAX_PENDING);
+}
+
+int main(int argc, char* argv[])
+{
+  struct sockaddr_in sin;
+  char buf[MAX_LINE];
+  char username[32]; // max length of username is 32 chars
+  int buf_len, addr_len;
+  int new_s;
+
+  // User may optionally specify port number on command line
+  if(argc == 2) {
+    port = atoi(argv[1]);
+  }
+
+  performPassiveOpen(&sin);
 
  /* wait for connection, then receive and print text */
   while(1) {
-    if ((new_s = accept(s, (struct sockaddr *)&sin, &addr_len)) < 0) {
+    if ((new_s = accept(passive_open_socket, (struct sockaddr *)&sin, &addr_len)) < 0) {
       perror("server: accept error");
       exit(1);
     }

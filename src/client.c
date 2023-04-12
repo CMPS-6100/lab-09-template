@@ -7,28 +7,21 @@
 #include <unistd.h>
 #include <string.h>
 
-#define SERVER_PORT -1 // CHANGE THIS
 #define MAX_LINE 256
 
-int main(int argc, char * argv[])
-{
-  FILE *fp;
+// Global Variables
+int socket_id;
+int port = -1; // Default port, CHANGE THIS
+// END Global Variables
+
+// Function prototypes
+int connectToSocket(char* host);
+void printUsage();
+// END prototypes list
+
+int connectToSocket(char* host) {
   struct hostent *hp;
   struct sockaddr_in sin;
-  char *host;
-  char buf[MAX_LINE];
-  int s;
-  int len;
-
-  if (argc==2) {
-    host = argv[1];
-  }
-  else {
-    fprintf(stderr, "usage: client host\n");
-    fprintf(stderr, "   Ex: client localhost\n");
-    exit(1);
-  }
-
   /* translate host name into peer's IP address */
   hp = gethostbyname(host);
   if (!hp) {
@@ -40,23 +33,51 @@ int main(int argc, char * argv[])
   bzero((char *)&sin, sizeof(sin));
   sin.sin_family = AF_INET;
   bcopy(hp->h_addr, (char *)&sin.sin_addr, hp->h_length);
-  sin.sin_port = htons(SERVER_PORT);
+  sin.sin_port = htons(port);
 
   /* active open */
-  if ((s = socket(PF_INET, SOCK_STREAM, 0)) < 0) {
+  if ((socket_id = socket(PF_INET, SOCK_STREAM, 0)) < 0) {
     perror("client: socket error");
     exit(1);
   }
-  if (connect(s, (struct sockaddr *)&sin, sizeof(sin)) < 0)
+  if (connect(socket_id, (struct sockaddr *)&sin, sizeof(sin)) < 0)
   {
     perror("client: connect error");
-    close(s);
+    close(socket_id);
     exit(1);
   }
+  return socket_id;
+}
+
+void printUsage(){
+    fprintf(stderr, "usage: client server-hostname [portnum]\n");
+    fprintf(stderr, "   Ex: client localhost\n");
+    fprintf(stderr, "   Ex: client localhost 61000\n");
+    exit(1);
+}
+
+int main(int argc, char * argv[])
+{
+  char *host;
+  char buf[MAX_LINE];
+  int len;
+
+  // Read in Command Line Args
+  if (argc == 2) {
+    host = argv[1];
+  } else if (argc == 3){
+    host = argv[1];
+    port = atoi(argv[2]);
+  } else {
+    printUsage();
+  }
+
+  connectToSocket(host);
+
   /* main loop: get and send lines of text */
   while (fgets(buf, sizeof(buf), stdin)) {
     buf[MAX_LINE-1] = '\0';
     len = strlen(buf) + 1;
-    send(s, buf, len, 0);
+    send(socket_id, buf, len, 0);
   }
 }

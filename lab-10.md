@@ -1,6 +1,6 @@
 # CMPS 6100  Lab 10
 
-In this lab, you will learn about network exploration tools on the shell
+In this lab, you will learn some network exploration tools on the shell
 and write your first networked program.
 
 Refer back to the [README.md](README.md) for instruction on git and how 
@@ -54,7 +54,7 @@ locally.
 create a table and report average roundtrip time and the time of the day 
 when you made the measurements.
 
-    **Copy the output from your commands into answers.md**
+  **Copy the output from your commands into answers.md**
 
 ## nslookup
 
@@ -77,7 +77,7 @@ show you that this IP address is associated with `icann.org`.
   - google.com
   - 172.253.62.100
 
-    **Copy the output from your commands into answers.md**
+  **Copy the output from your commands into answers.md**
 
 ## netstat
 
@@ -112,13 +112,17 @@ displays your device's routing table.
   - What is the IPv4 address of `eth0`?
   - What is the IPv6 address of eth0?
 
-    **Enter your answers in answers.md**
+  **Enter your answers in answers.md**
 
 # Coding
 
 ## Warmup
 
-The simple client/server program from the textbook has been provided for you. 
+The simple client/server program from the textbook has been provided for you.
+We have refactored it to abstract away the details of the socket connections 
+into their own functions. Otherwise, the code is the same as what is provided 
+in our textbook.
+
 Study it and answer the following questions.
 
 5. In `server.c` what do each of the following calls do?
@@ -127,19 +131,21 @@ Study it and answer the following questions.
   - `listen()`
   - `accept()`
 
-    **Enter your answers in answers.md**
+  **Enter your answers in answers.md**
 
 6. In `client.c` what do each of the following calls do?
   - `socket()`
   - `connect()`
 
-    **Enter your answers in answers.md**
+  **Enter your answers in answers.md**
+
+### Picking a port and running your program
 
 Now that you've studied the code, let's run it! First, you will need to
-edit the code. In both files, the `SERVER_PORT` has been assigned the
-value of `NULL`, an invalid port number. For any computer, only a single
-server may be bound to any individual port number. Since we all share
-the same server, we must each choose our own port number.
+edit the code. In both files, the `port` global variable has been assigned
+the value of `-1`, a poor default port number. For any computer, only a single
+server program may be bound to any individual port number. Since we all share
+the same machine, we must each choose our own port number.
 
 To quarantee no conflicts, choose a port number of the format 5#### where
 the the last four digits are correspond with the last four digits of your
@@ -157,20 +163,23 @@ with their input redirected from a file.
 6. What happens to these 5 clients? Do their `connect()`'s fail, or time 
 out, or succeed?
 
-    **Enter your answer in answers.md**
+  **Enter your answer in answers.md**
 
 7. Now let the first client exit (`ctrl-c`). What happens?
 
-    **Enter your answer in answers.md**
+  **Enter your answer in answers.md**
 
 ## Chat Program
 
-Your task is to turn this basic client/server application into a chat program.
-Your client will ask the user for a username and then connect to the server.
+Your task is to turn this basic client/server into a chat program. 
 
-The client will emit a prompt (`"> "`), read in a message from the user,
-then send it to the server. At this point the client will wait for the
-server's response.
+Your client will ask the user for a username and then connect to the server.
+The client will then send its first message to the server, the client's
+username. There should be no trailing new line character at the end of this
+string.
+
+The client will read in a message from the user, then send it to the server. 
+At this point the client will wait for the server's response.
 
 > **Note:** The client must remove any trailing new line characters from the
 > end of the message before sending it to the server. This will be important
@@ -178,49 +187,55 @@ server's response.
 > server that can accept multiple clients, you can connect your client
 > to your peers' servers and vice-verse.
 
-The server will print the client's message to the screen in the format:
+On the server side, once a client connects, it will read in and save the 
+client's username, then enter the loop waiting for client messages.
+
+When a message is received, the server will print it to the screen in the format:
 
 `username: user's message`
 
-The server will emit a prompt (`"> "`), read in a message from the user,
-and send it to the client.
+The server will read in a message from the user, and send it to the client.
 
 The client will recieve this message and print it to the screen in the format:
 
 `server: server's message`
 
-This will continue until the user kills the programs.
+This will continue until the client sends the message `"logout"`. At this point,
+the server will close the client's socket and wait for the next client to connect.
+The client will close its socket and exit.
 
 ### Example Execution
 
 Here is the client's side of the chat:
 
 ```
-amaus@cmps-6100:~/labs/devel/chat $ gcc client.c -o client && ./client localhost
+amaus@cmps-6100:~/labs/chat $ gcc client.c -o client && ./client localhost
 Welcome to my chat program!
 Please enter a username: amaus
 Hi amaus!
 You may start talking to the server.
-> Hi chat program!
+Hi chat program!
 server: Hello client user. Shall we chat?
-> Ok, although I don't know what to say.
+Ok, although I don't know what to say.
 server: I get it, it is odd talking with yourself.
->
+logout
+Disconnected from chat
+amaus@cmps-6100:~/labs/chat $
 ```
 
 And here is the server's side:
 
 ```
-amaus@cmps-6100:~/labs/devel/chat $ gcc server.c -o server && ./server
+amaus@cmps-6100:~/labs/chat $ gcc server.c -o server && ./server
 amaus has connected to chat.
 amaus: Hi chat program!
-> Hello client user. Shall we chat?
+Hello client user. Shall we chat?
 amaus: Ok, although I don't know what to say.
-> I get it, it is odd talking with yourself.
+I get it, it is odd talking with yourself.
+amaus has disconnected from chat.
 ```
 
 ## Resources
 
 [Ch. 1.4: Software](https://book.systemsapproach.org/foundation/software.html)
-
 Harvard's [CS50 Manual Page](https://manual.cs50.io/) 
