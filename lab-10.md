@@ -299,5 +299,6 @@ amaus has disconnected from chat.
 
 ## Resources
 
-[Ch. 1.4: Software](https://book.systemsapproach.org/foundation/software.html)
-Harvard's [CS50 Manual Page](https://manual.cs50.io/) 
+- [CNASA: Ch. 1.4: Software](https://book.systemsapproach.org/foundation/software.html)
+- [Harvard's CS50 Manual Page](https://manual.cs50.io/) 
+- [Stanford's Essential C](http://cslibrary.stanford.edu/101/)
