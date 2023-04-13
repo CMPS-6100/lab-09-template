@@ -52,7 +52,7 @@ int main(int argc, char* argv[])
   int buf_len, addr_len;
   int new_s;
 
-  // User may optionally specify port number on command line
+  // Read in port number
   if(argc == 2) {
     port = atoi(argv[1]);
   } else {
