@@ -11,7 +11,7 @@
 
 // Global Variables
 int socket_id;
-int port = -1; // Default port, CHANGE THIS
+int port;
 // END Global Variables
 
 // Function prototypes
@@ -50,10 +50,9 @@ int connectToSocket(char* host) {
 }
 
 void printUsage(){
-    fprintf(stderr, "usage: client server-hostname [portnum]\n");
-    fprintf(stderr, "   Ex: client localhost\n");
-    fprintf(stderr, "   Ex: client localhost 61000\n");
-    exit(1);
+  fprintf(stderr, "usage: client <server-hostname> <portnum>\n");
+  fprintf(stderr, "  Ex: client localhost 12345\n");
+  fprintf(stderr, "    Connect to a server running on the localhost at port 12345\n");
 }
 
 int main(int argc, char * argv[])
@@ -63,13 +62,12 @@ int main(int argc, char * argv[])
   int len;
 
   // Read in Command Line Args
-  if (argc == 2) {
-    host = argv[1];
-  } else if (argc == 3){
+  if (argc == 3) {
     host = argv[1];
     port = atoi(argv[2]);
   } else {
     printUsage();
+    exit(1);
   }
 
   connectToSocket(host);

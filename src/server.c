@@ -12,11 +12,12 @@
 
 // Global Variables
 int passive_open_socket;
-int port = -1; // Default port, CHANGE THIS
+int port;
 // END Global Variables
 
 // Function prototypes
 int performPassiveOpen(struct sockaddr_in* sin);
+void printUsage();
 // END prototypes list
 
 int performPassiveOpen(struct sockaddr_in* sin) {
@@ -38,6 +39,12 @@ int performPassiveOpen(struct sockaddr_in* sin) {
   listen(passive_open_socket, MAX_PENDING);
 }
 
+void printUsage(){
+  fprintf(stderr, "Usage: server <portnum>\n");
+  fprintf(stderr, "  Ex: server 12345\n");
+  fprintf(stderr, "    Start the server connected to port 12345\n");
+}
+
 int main(int argc, char* argv[])
 {
   struct sockaddr_in sin;
@@ -49,6 +56,9 @@ int main(int argc, char* argv[])
   // User may optionally specify port number on command line
   if(argc == 2) {
     port = atoi(argv[1]);
+  } else {
+    printUsage();
+    exit(1);
   }
 
   performPassiveOpen(&sin);

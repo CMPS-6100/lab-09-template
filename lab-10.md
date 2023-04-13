@@ -118,10 +118,17 @@ displays your device's routing table.
 
 ## Warmup
 
-The simple client/server program from the textbook has been provided for you.
-We have refactored it to abstract away the details of the socket connections 
-into their own functions. Otherwise, the code is the same as what is provided 
-in our textbook.
+The simple client/server program from the textbook has been provided for you
+with a few small differences.
+
+First, we have refactored it to abstract away the details of the socket connections 
+into their own functions. 
+
+Second, we have required that the port number for the client and server be provided
+on the command line when each is started.
+
+We did not change how the client and server connect to each other or what they do
+after connected.
 
 Study it and answer the following questions.
 
@@ -141,24 +148,56 @@ Study it and answer the following questions.
 
 ### Picking a port and running your program
 
-Now that you've studied the code, let's run it! First, you will need to
-edit the code. In both files, the `port` global variable has been assigned
-the value of `-1`, a poor default port number. For any computer, only a single
-server program may be bound to any individual port number. Since we all share
-the same machine, we must each choose our own port number.
+Now that you've studied the code, let's run it! Before running the client 
+and server, you will need to pick a port number for your program. For any 
+computer, only a single server program may be bound to any individual port. 
+Since we all share the same machine, we must each choose our own port number.
 
 To quarantee no conflicts, choose a port number of the format 5#### where
 the the last four digits are correspond with the last four digits of your
-student ID. 
+student ID. You will provide your port number on the command line when
+you run your client and server.
 
-Update the client and server with your chosen port number. Then compile
-both the client and the server.
+With that done, now compile both the client and server:
 
-With that done, now start one server and one client, in separate windows. 
+```
+$ gcc client.c -o client
+$ gcc server.c -o server
+```
 
-While the first client is running, start 5 other clients that connect 
+Now start one server and one client, in separate windows:
+
+```
+$ ./server PORTNUM
+```
+
+```
+$ ./client localhost PORTNUM
+```
+
+In each of these commands, replace `PORTNUM` with the port number you
+have chosen.
+
+Enter messages in the client window and see what happens.
+
+Now, while the first client is running, start 5 other clients that connect 
 to the same server; these other clients should be started in the background 
 with their input redirected from a file. 
+
+You can start a single client in this way with the following command:
+
+```
+$ echo "Hi server!!" | ./client localhost PORTNUM &
+```
+
+The `"|"` or "pipe" sends the output of the program on the left as the input to
+the program on the right. In this case, it sends the output of echo (that string) 
+as the input message for the client.
+
+> Hint: You can write a script bash script that starts all five clients.
+> The first line of the script should be "#!/bin/bash". After that put
+> all instructions to execute. Make your script executable, then you can
+> run it.
 
 6. What happens to these 5 clients? Do their `connect()`'s fail, or time 
 out, or succeed?
@@ -203,6 +242,26 @@ The client will recieve this message and print it to the screen in the format:
 This will continue until the client sends the message `"logout"`. At this point,
 the server will close the client's socket and wait for the next client to connect.
 The client will close its socket and exit.
+
+## Tips
+
+- When developing, you will likely start and stop your client/server app many times.
+  Best practice is to stop all clients connected to the server before stopping the
+  server. If you don't, you may get a `server: bind error: Address already in use`
+
+- If you get a `server: bind error: Address already in use`, your server likely didn't
+  exit correctly (see above, but could also happen for other reasons). You can try the 
+  following command 
+
+  `$ lsof -n -i :PORTNUM`
+
+  (where `PORTNUM` is the port number you have chosen) to get the PID of the process
+  bound to that port. Once you know the PID, if you own that process, you can kill 
+  it with the command
+
+  `$ kill PID`
+
+  Alternatively, choose a new port number for your chat program. 
 
 ### Example Execution
 
