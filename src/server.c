@@ -49,7 +49,6 @@ int main(int argc, char* argv[])
 {
   struct sockaddr_in sin;
   char buf[MAX_LINE];
-  char username[32]; // max length of username is 32 chars
   int buf_len, addr_len;
   int new_s;
 
