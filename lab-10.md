@@ -202,12 +202,12 @@ as the input message for the client.
 > all instructions to execute. Make your script executable, then you can
 > run it.
 
-6. What happens to these 5 clients? Do their `connect()`'s fail, or time 
+7. What happens to these 5 clients? Do their `connect()`'s fail, or time 
 out, or succeed?
 
     **Enter your answer in answers.md**
 
-7. Now let the first client exit (`ctrl-c`). What happens?
+8. Now let the first client exit (`ctrl-c`). What happens?
 
     **Enter your answer in answers.md**
 
