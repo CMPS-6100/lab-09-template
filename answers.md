@@ -1,7 +1,7 @@
 # CMPS 6100 Lab 10
 ## Answers
 
-**Name:** 
+**Name:** _________________________
 
 Place all written answers from `lab-10.md` here.
 
