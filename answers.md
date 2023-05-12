@@ -11,7 +11,6 @@ Place all written answers from `lab-10.md` here.
 create a table and report average roundtrip time and the time of the day 
 when you made the measurements.
 
-
 2.	Execute nslookup using the following parameters and report the outcome (what is a non-authorative answer?)
   - iana.com
   - nola.com
@@ -30,6 +29,8 @@ when you made the measurements.
   - What is the IPv4 address of `eth0`?
   - What is the IPv6 address of eth0?
 
+# Network Coding Warmup (4 pts.)
+
 5. In `server.c` what do each of the following calls do?
     - `socket()`
     - `bind()`
@@ -40,7 +41,7 @@ when you made the measurements.
     - `socket()`
     - `connect()`
 
-# Running the Client/Server
+# Running the Client/Server (4 pts.)
 
 7. What happens to these 5 clients? Do their `connect()`'s fail, or time 
 out, or succeed?
