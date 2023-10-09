@@ -11,7 +11,7 @@ to submit properly to get all the points you've earned.
 In this lab, you will use several shell commands to become familiar
 computer networking capabilities and with the internet.
 
-We recommend working on our cmps-6100-lab server, but you can also
+We recommend working on our cmps-lab server, but you can also
 try these commands on your local computer.
 
 ## Ping
@@ -271,7 +271,7 @@ The client will close its socket and exit.
 Here is the client's side of the chat:
 
 ```
-amaus@cmps-6100:~/labs/chat $ gcc client.c -o client && ./client localhost 61000
+amaus@cmps-lab:~/labs/chat $ gcc client.c -o client && ./client localhost 61000
 Welcome to my chat program!
 Please enter a username: amaus
 Hi amaus!
@@ -282,13 +282,13 @@ Ok, although I don't know what to say.
 server: I get it, it is odd talking with yourself.
 logout
 Disconnected from chat
-amaus@cmps-6100:~/labs/chat $
+amaus@cmps-lab:~/labs/chat $
 ```
 
 And here is the server's side:
 
 ```
-amaus@cmps-6100:~/labs/chat $ gcc server.c -o server && ./server 61000
+amaus@cmps-lab:~/labs/chat $ gcc server.c -o server && ./server 61000
 amaus has connected to chat.
 amaus: Hi chat program!
 Hello client user. Shall we chat?
