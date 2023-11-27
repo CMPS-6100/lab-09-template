@@ -238,7 +238,7 @@ When a message is received, the server will print it to the screen in the format
 
 The server will read in a message from the user, and send it to the client.
 
-The client will recieve this message and print it to the screen in the format:
+The client will receive this message and print it to the screen in the format:
 
 `server: server's message`
 
