@@ -1,9 +1,9 @@
-# CMPS 6100 Lab 10
+# CMPS 6100 Lab 09
 ## Answers
 
 **Name:** _________________________
 
-Place all written answers from `lab-10.md` here.
+Place all written answers from `lab-09.md` here.
 
 # Network Exploration (4 pts)
 

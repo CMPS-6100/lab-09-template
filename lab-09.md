@@ -1,4 +1,4 @@
-# CMPS 6100  Lab 10
+# CMPS 6100  Lab 09
 
 In this lab, you will learn some network exploration tools
 and write your first networked program.

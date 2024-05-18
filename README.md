@@ -1,9 +1,9 @@
-# CMPS 6100  Lab 10
+# CMPS 6100  Lab 09
 
 In this lab, you will learn about network exploration tools
 and write your first networked program.
 
-To complete this lab, follow the instructions in [lab-10.md](lab-10.md) ([PDF version](lab-10.pdf)). Below you'll find important and useful information about submitting your work, using git, and testing your code. 
+To complete this lab, follow the instructions in [lab-09.md](lab-09.md) ([PDF version](lab-09.pdf)). Below you'll find important and useful information about submitting your work, using git, and testing your code. 
 
 ## Turning in your work
 - At the top of `answers.md` file, **include your name**.
