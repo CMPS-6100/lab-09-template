@@ -48,7 +48,7 @@ Execute ping on the following websites (you can quit ping by hitting CTRL-C):
 - bsu.by (Belarusian State University, server presumably located in Belarus)
 - Foreign website of your choice. A foreign university that you or a friend 
 attended/wish to attend would be a good choice. Unlike businesses which tend 
-to by hosting from American Companies, universities usually host their websites 
+to buy hosting from American Companies, universities usually host their websites 
 locally.
 
 1. Examine the resulting output of ping command. For each of the websites, 
